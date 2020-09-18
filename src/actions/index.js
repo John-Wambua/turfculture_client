@@ -4,7 +4,10 @@ import {
     FORGOT_PASS, RESET_PASS,
     GET_CURRENT_USER,
     UPDATE_CURRENT_USER,
-    UPDATE_CURRENT_USER_PASS
+    UPDATE_CURRENT_USER_PASS,
+    FETCH_FACILITES,
+    FETCH_FACILITY,
+    FETCH_FACILITY_STATS
 } from "./types";
 
 
@@ -44,3 +47,26 @@ export const updateUserPass =(authToken,formValues) =>async dispatch=>{
     });
     dispatch ({ type: UPDATE_CURRENT_USER_PASS, payload: response.data })
 }
+
+//FACILITIES
+
+export const fetchFacilities =() =>async dispatch=>{
+    try {
+        const response = await turfculture.get('/facilities');
+        console.log('RESPONSE.DATA.DATA.FACILITIES', response.data.data.facilities)
+        dispatch ({ type: FETCH_FACILITES, payload: response.data.data.facilities })
+
+    }catch (e) {
+        console.log(e)
+    }
+}
+export const fetchFacility =id =>async dispatch=>{
+    const response = await turfculture.get(`/facilities/${id}`);
+    console.log('RESPONSE.DATA.DATA.FACILITIES', response.data.data.facility)
+    dispatch ({ type: FETCH_FACILITY, payload: response.data.data.facility })
+}
+export const fetchFacilityStats =() =>async dispatch=>{
+    const response = await turfculture.get('/facilities/facility-stats');
+    dispatch ({ type: FETCH_FACILITY_STATS, payload: response.data })
+}
+
